@@ -105,14 +105,16 @@ public class TicTacToe {
 		Random rx = new Random();
 		Random ry = new Random();
 		int x=0,y=0;
+		int falseCount=0;
 		boolean complete = false;
+		if(findEmpty(this))
+		{
 		while(complete==false)
 		{
 	
 		x = rx.nextInt(3);
 		y = ry.nextInt(3);
-		if(findEmpty(this))
-		{
+		
 			if(board[x][y]!=-1)
 			{
 				continue;
@@ -127,10 +129,19 @@ public class TicTacToe {
 						{
 							board[x][y]=move%2;				
 							complete=true;
-							//System.out.println("movePredictorTrue");
+							System.out.println("movePredictorTrue");
 						}
 						else
 						{
+							
+							falseCount++;
+							if(falseCount>1000)
+							{
+								board[x][y]=move%2;				
+								complete=true;
+							}
+							else
+//							System.out.println("movePredictorFalse");
 							complete=false;
 						}
 					
@@ -180,6 +191,8 @@ public class TicTacToe {
 		int x=0,y=0;
 		boolean complete = false;
 		int ctr = 0;
+		if(findEmpty(this))
+		{
 		while(complete==false)
 		{
 			
@@ -187,7 +200,7 @@ public class TicTacToe {
 		x = rx.nextInt(3);
 		y = ry.nextInt(3);
 		
-	
+		
 		if(board[x][y]!=-1)
 		{
 			//System.out.println("Move Generate");
@@ -203,6 +216,7 @@ public class TicTacToe {
 			
 			
 			
+		}
 		}
 		}
 		
@@ -239,14 +253,14 @@ public class TicTacToe {
 		int count = 0 ;
 		if(findEmpty(ttt))
 		{
-		while(ttt.winner()==-1||count<9)
+		while(ttt.winner()==-1&&count<9)
 		{
 			
 			ttt.moveGeneratorSimulate(false);
 			if(!findEmpty(ttt))
 				break;
 			
-			//System.out.println("Simulation");
+//			System.out.println("Simulation");
 			count++;
 		}
 		}
@@ -268,8 +282,10 @@ public class TicTacToe {
 			predictTTT.move = move;
 			predictTTT.board[x][y]=move%2;
 			predictTTT.move++;
-		
 			
+		
+			if(move==9)
+				return true;
 			
 			int sum =0;			
 			for(int  i = 0 ;i<10;i++)
@@ -286,7 +302,9 @@ public class TicTacToe {
 				}
 			}
 			
-			if((float)sum/10>=predictTTT.move/15)
+			
+			
+			if((float)sum/10>=(float)(0.8))
 			{
 				System.out.println("Win probability"+ String.format("%.2f", (float)sum/10));
 				return true;

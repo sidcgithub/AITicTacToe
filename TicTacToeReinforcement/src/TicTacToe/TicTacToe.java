@@ -25,6 +25,8 @@ public class TicTacToe {
 		
 	}
 	
+
+	
 	public int winner()
 	{
 		
@@ -97,10 +99,11 @@ public class TicTacToe {
 		return -1;
 	}
 	//This is the move Generator for the main game
-	public List<Integer> moveGeneratorMain(boolean enable)
+	public List<Integer> moveGeneratorMain(boolean enable,int userX,int userY)
 	{
 		
 		//System.out.println(move);
+		
 		
 		Random rx = new Random();
 		Random ry = new Random();
@@ -109,6 +112,15 @@ public class TicTacToe {
 		boolean complete = false;
 		if(findEmpty(this))
 		{
+			if(userX!=-1)
+			{
+				board[userX][userY]=1;
+			}
+			else
+			{
+			
+			
+			
 		while(complete==false)
 		{
 	
@@ -156,6 +168,7 @@ public class TicTacToe {
 				
 				
 			}
+		}
 		}
 		}
 		
